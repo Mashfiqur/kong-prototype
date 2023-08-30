@@ -6,11 +6,16 @@ app = Flask(__name__)
 
 KONG_ADMIN_URL = os.environ.get('KONG_ADMIN_URL', 'http://localhost:8000')
 
-def sync_asset_folder():
+@app.before_request
+def before_request():
     if os.path.exists('assets') and os.path.isdir('assets'):
         print('Asset folder exists')
     else:
         os.makedirs('assets')
+
+@app.errorhandler(404)
+def route_not_found(error):
+    return jsonify({"message": "Route not found"}), 404
 
 def generate_unique_id():
     current_time = datetime.datetime.now()
@@ -28,7 +33,6 @@ def index():
 
 @app.route('/upload', methods=['POST'])
 def upload():
-    sync_asset_folder()
     try:
         file = request.files['file'];
         fileName = file.filename
@@ -39,7 +43,6 @@ def upload():
 
 @app.route('/retrieve/<fileName>', methods=['GET'])
 def retrieve(fileName):
-    sync_asset_folder()
     try:
         assets_folder = os.path.join(app.root_path, 'assets')
     
@@ -52,7 +55,6 @@ def retrieve(fileName):
 
 @app.route('/assets/<fileName>')
 def serve_asset(fileName):
-    sync_asset_folder()
     try:
         if fileName == '' or '-' not in fileName:
             return jsonify({"message": "Invalid file"}), 500

@@ -44,7 +44,7 @@ There are two options such as db-less and with database(postgres) to install KON
     ```sh
     docker-compose up --build
     ```
-### We will build three images such as kong, cdn, app under kong-cdn-net through docker-compose.yaml file. Available URL(s) after building the services through docker-compose.yaml file
+### We will build three images such as kong, cdn, app under kong-cdn-net docker network through docker-compose.yaml file. Available URL(s) after building the services through docker-compose.yaml file
 
 ## Service URLs
 
@@ -67,20 +67,27 @@ There are two options such as db-less and with database(postgres) to install KON
    - [http://localhost:5000/upload](http://localhost:5000/upload) (Through app service base URL)
 3. Set the `Content-Type` header to `multipart/form-data`.
 4. Attach a file using the appropriate key('file').
-5. The service will store the file in the `cdn` directory and generate a unique URL for the asset.
+5. The service will store the file in the `cdn/assets` directory and generate a unique URL for the asset.
+6. You can hit the generated URL which you will find in the response in the browser or Postman to see 
+   the stored file
 
 ### Retrieve Mechanism
 
 1. Open Postman.
 2. Make a GET request to one of the following URLs:
-   - [http://localhost:8000/app/retrieve/<fileName>](http://localhost:8000/app/retrieve/<fileName>) (With the help of KONG ADMIN URL. This will forward to app service as we mentioned in the kong.yaml configuration file.)
-   - [http://localhost:5000/retrieve/<fileName>](http://localhost:5000/retrieve/<fileName>) (Through app service base URL).
-3. Replace `<fileName>` with the actual filename.
-4. If the file exists in the assets folder inside cdn directory, the service will generate a unique URL for the asset.
+   - [http://localhost:8000/app/retrieve/{fileName}](http://localhost:8000/app/retrieve/{fileName}) (With the help of KONG ADMIN URL. This will forward to app service as we mentioned in the kong.yaml configuration file.)
+   - [http://localhost:5000/retrieve/{fileName}](http://localhost:5000/retrieve/{fileName}) (Through app service base URL).
+3. Replace `{fileName}` with the actual filename.
+4. If the file exists in the assets folder inside cdn directory, the service will generate a 
+   unique URL for the asset and send as response.
 
 ## Additional Notes
 
-- Use the provided Kong Admin URLs to check routes, services, and endpoints of the Kong API Gateway.
+- Use the provided Kong Admin URLs to check routes, services, and endpoints of the Kong API Gateway through these URL.
+
+1. http://localhost:8001/routes (Checking Routes)
+2. http://localhost:8001/services (Checking Services)
+3. http://localhost:8001/endpoints (Checking Endpoints)
 
 ## Conclusion
 

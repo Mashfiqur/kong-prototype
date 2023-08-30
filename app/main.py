@@ -9,6 +9,11 @@ app = Flask(__name__)
 KONG_ADMIN_CDN_UPLOAD_URL = os.environ.get('KONG_ADMIN_CDN_UPLOAD_URL', 'http://kong:8000/cdn/upload')
 KONG_ADMIN_CDN_RETRIEVE_URL = os.environ.get('KONG_ADMIN_CDN_RETRIEVE_URL', 'http://kong:8000/cdn/retrieve')
 
+
+@app.errorhandler(404)
+def route_not_found(error):
+    return jsonify({"message": "Route not found"}), 404
+    
 @app.route('/')
 def index():
     return 'App is running';
