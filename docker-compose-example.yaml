@@ -27,7 +27,22 @@ services:
     networks:
       - kong-cdn-net
 
-  flask-app:
+  cdn:
+    build:
+      context: ./cdn
+      dockerfile: Dockerfile
+    ports:
+      - "5001:5001"
+    depends_on:
+      - kong
+    env_file:
+      - .env
+    networks:
+      - kong-cdn-net
+    volumes:
+      - ./cdn:/cdn
+
+  app:
     build:
       context: ./app
       dockerfile: Dockerfile
@@ -35,6 +50,9 @@ services:
       - "5000:5000"
     depends_on:
       - kong
+      - cdn
+    env_file:
+      - .env
     networks:
       - kong-cdn-net
     volumes:
