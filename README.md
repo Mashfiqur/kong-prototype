@@ -68,7 +68,7 @@ There are two options such as db-less and with database(postgres) to install KON
 3. Set the `Content-Type` header to `multipart/form-data`.
 4. Attach a file using the appropriate key('file').
 5. The service will store the file in the `cdn/assets` directory and generate a unique URL for the asset.
-6. You can hit the generated URL which you will find in the response in the browser or Postman to see 
+6. You can hit the generated URL which you will find in the response on the browser or Postman to see 
    the stored file
 
 ### Retrieve Mechanism
@@ -80,6 +80,8 @@ There are two options such as db-less and with database(postgres) to install KON
 3. Replace `{fileName}` with the actual filename.
 4. If the file exists in the assets folder inside cdn directory, the service will generate a 
    unique URL for the asset and send as response.
+5. You can hit the generated URL which you will find in the response on the browser or Postman to see 
+   the stored file
 
 ## Additional Notes
 
