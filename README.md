@@ -15,20 +15,22 @@ There are two options such as db-less and with database(postgres) to install KON
 1. **Clone the Repository:** Start by cloning this repository to your local machine:
 
     ```sh
-        git clone https://github.com/Mashfiqur/kong-prototype.git
-        cd kong-prototype
+    git clone https://github.com/Mashfiqur/kong-prototype.git
+    ```
+    ```sh
+    cd kong-prototype
     ```
 
 2. **Environment Configuration:** Copy the environment file and configure it if necessary:
 
     ```sh
-        cp .env.example .env
+    cp .env.example .env
     ```
 
 3. **Docker compose Configuration:** Copy the docker-compose YAML file and configure it if necessary:
 
     ```sh
-        cp docker-compose-example.yaml docker-compose.yaml
+    cp docker-compose-example.yaml docker-compose.yaml
     ```
 
 4. **Create Docker Network:** Create a Docker network for the services:
