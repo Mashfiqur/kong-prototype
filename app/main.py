@@ -13,7 +13,7 @@ KONG_ADMIN_CDN_RETRIEVE_URL = os.environ.get('KONG_ADMIN_CDN_RETRIEVE_URL', 'htt
 @app.errorhandler(404)
 def route_not_found(error):
     return jsonify({"message": "Route not found"}), 404
-    
+
 @app.route('/')
 def index():
     return 'App is running';
@@ -50,13 +50,12 @@ def upload():
 @app.route('/retrieve/<fileName>', methods=['GET'])
 def retrieve(fileName):
     try:
-        if not fileName or fileName == "":
-            return jsonify({"message": "Retrieval failed"}), 404
-
         response = requests.get(
             KONG_ADMIN_CDN_RETRIEVE_URL + '/' + fileName,
         )
 
+        if response.status_code == 404:
+            return response.json(), 404
         if response.status_code != 200:
             return jsonify({"message": "Retrieval failed"}), 500
 

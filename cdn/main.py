@@ -49,7 +49,7 @@ def retrieve(fileName):
         if os.path.exists(assets_folder + '/' + fileName):
             return generate_unique_url(fileName), 200;
         else:
-            return jsonify({"message": "File doesn't exist"}), 500
+            return jsonify({"message": "File doesn't exist"}), 404
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
