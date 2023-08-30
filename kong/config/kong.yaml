@@ -28,61 +28,14 @@ services:
           - POST
         strip_path: true
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# _format_version: "2.1"
-
-# services:
-
-#   - name: cdn-service
-#     url: http://flask-app:5000
-#     routes:
-#       - name: cdn
-#         paths:
-#           - /cdn
-#         methods:
-#           - GET
-#           - POST
-
-
-# plugins:
-# - name: cors
-#   config: 
-#     origins:
-#     - "*"
-#     methods:
-#     - GET
-#     - POST
-#     headers:
-#     - Accept
-#     - Accept-Version
-#     - Authorization
-#     - Content-Length
-#     - Content-MD5
-#     - Content-Type
-#     - Date
-#     - X-Auth-Token
-#     exposed_headers:
-#     - X-Auth-Token
-#     credentials: true
-#     max_age: 3600
+  - name: app-redirect
+    host: app
+    port: 5000
+    protocol: http
+    routes:
+      - name: app_redirect_route
+        paths:
+          - /
+        methods:
+          - GET
+        strip_path: true
