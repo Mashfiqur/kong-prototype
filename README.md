@@ -63,7 +63,7 @@ There are two options such as db-less and with database(postgres) to install KON
 
 1. Open Postman.
 2. Make a POST request to one of the following URLs:
-   - [http://localhost:8000/app/upload](http://localhost:8000/app/upload) (With the help of KONG ADMIN URL. This will forward to app service as we mentioned in the kong.yaml configuration file.)
+   - [http://localhost:8000/app/upload](http://localhost:8000/app/upload) (With the help of KONG API Gateway URL. This will forward to app service as we mentioned in the kong.yaml configuration file.)
    - [http://localhost:5000/upload](http://localhost:5000/upload) (Through app service base URL)
 3. Set the `Content-Type` header to `multipart/form-data`.
 4. Attach a file using the appropriate key('file').
@@ -75,7 +75,7 @@ There are two options such as db-less and with database(postgres) to install KON
 
 1. Open Postman.
 2. Make a GET request to one of the following URLs:
-   - [http://localhost:8000/app/retrieve/{fileName}](http://localhost:8000/app/retrieve/{fileName}) (With the help of KONG ADMIN URL. This will forward to app service as we mentioned in the kong.yaml configuration file.)
+   - [http://localhost:8000/app/retrieve/{fileName}](http://localhost:8000/app/retrieve/{fileName}) (With the help of KONG API Gateway URL. This will forward to app service as we mentioned in the kong.yaml configuration file.)
    - [http://localhost:5000/retrieve/{fileName}](http://localhost:5000/retrieve/{fileName}) (Through app service base URL).
 3. Replace `{fileName}` with the actual filename.
 4. If the file exists in the assets folder inside cdn directory, the service will generate a 
