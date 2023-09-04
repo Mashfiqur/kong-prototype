@@ -1,6 +1,5 @@
 from flask import Flask, request, jsonify
 import requests
-import json
 import os
 
 app = Flask(__name__)
@@ -9,6 +8,12 @@ app = Flask(__name__)
 KONG_ADMIN_CDN_UPLOAD_URL = os.environ.get('KONG_ADMIN_CDN_UPLOAD_URL', 'http://kong:8000/cdn/upload')
 KONG_ADMIN_CDN_RETRIEVE_URL = os.environ.get('KONG_ADMIN_CDN_RETRIEVE_URL', 'http://kong:8000/cdn/retrieve')
 
+def validate_upload():
+    if 'file' not in request.files:
+        return False, "No file part"
+    if request.files['file'].filename == '':
+        return False, "No selected file"
+    return True, ""
 
 @app.errorhandler(404)
 def route_not_found(error):
@@ -16,14 +21,7 @@ def route_not_found(error):
 
 @app.route('/')
 def index():
-    return 'App is running';
-
-def validate_upload():
-    if 'file' not in request.files:
-        return False, "No file part";
-    if request.files['file'].filename == '':
-        return False, "No selected file";
-    return True, "";
+    return 'App is running'
 
 @app.route('/upload', methods=['POST'])
 def upload():
@@ -31,13 +29,13 @@ def upload():
         is_valid, error_message = validate_upload()
         
         if not is_valid:
-            return jsonify({"message": error_message}), 400;
+            return jsonify({"message": error_message}), 400
 
-        file = request.files['file'];
+        file = request.files['file']
 
         response = requests.post(
             KONG_ADMIN_CDN_UPLOAD_URL,
-            files = {'file': (file.filename, file.stream)}
+            files={'file': (file.filename, file.stream)}
         )
 
         if response.status_code != 201:
@@ -51,7 +49,7 @@ def upload():
 def retrieve(fileName):
     try:
         response = requests.get(
-            KONG_ADMIN_CDN_RETRIEVE_URL + '/' + fileName,
+            f'{KONG_ADMIN_CDN_RETRIEVE_URL}/{fileName}',
         )
 
         if response.status_code == 404:
@@ -63,7 +61,6 @@ def retrieve(fileName):
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5000, debug=True)
